@@ -1,0 +1,92 @@
+import java.io.*;
+
+
+public class ContaStrings {
+
+	
+	public static void main(String[] args) throws IOException{
+		String cadena;
+		char delimitador;
+		int suma;
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		System.out.println("Digita la cadena que se va a sumar: ");
+		
+		cadena=br.readLine();
+		
+		System.out.println("Digita el delimitador que se va a utilizar (Ej: , ): ");
+		
+		delimitador=(char) br.read();
+		
+		suma=Add(cadena, delimitador);
+		
+		System.out.println("La suma de "+cadena+" es "+suma);
+		
+		
+		
+	}
+	
+	//Metodo Add, maneja el acceso para los submetodos que reciben
+	static int Add(String cadena, char delim){
+		
+		int result=0;
+		if(cadena.charAt(cadena.length()-1)==','){
+			System.out.println("La cadena tiene una ',' al final opcion no valida");
+			return 0;
+		}
+		
+		
+		if(Verificar_Vacio(cadena))
+			result=0;
+		else
+			result=Sumar_Num(cadena, delim);				
+						
+		return result;
+	}
+	
+	static boolean Verificar_Vacio(String cadena){
+		if(cadena.equals(""))
+		return true;
+		else
+			return false;
+		
+	}
+	
+	static int Sumar_Num(String cadena, char delim){
+		int result=0, cont_inicio=0;			
+		int i=0;
+		while(i<cadena.length()){
+			
+			
+			
+			if(Validar_Delim(cadena, delim, i)){
+			try{					
+					result+=Integer.parseInt(cadena.substring(cont_inicio, i));
+															
+				}catch(NumberFormatException e){
+					System.err.println(e.getMessage());					
+				}
+				cont_inicio=i+1;				
+			}			
+			i++;			
+		}
+		try{
+			result+=Integer.parseInt(cadena.substring(cadena.length()-1, cadena.length()));
+		}catch(NumberFormatException e){
+			System.err.println(e.getMessage());					
+		}
+		return result;
+	}
+	
+	static boolean Validar_Delim(String cadena, char delim, int indicador){
+		if (cadena.charAt(indicador)==delim){
+			return true;
+		}
+		else
+			return false;
+		
+	}
+	
+	
+}
